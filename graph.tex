@@ -1,0 +1,52 @@
+\documentclass[border=2mm]{standalone}
+
+\usepackage{amsmath, luamplib}
+\mplibtextextlabel{enable}
+
+\mplibnumbersystem{double}
+
+\newcommand{\sdfrac}[2]{\mbox{\small$\displaystyle\frac{#1}{#2}$}}
+\newcommand{\fdfrac}[2]{\mbox{\footnotesize$\displaystyle\frac{#1}{#2}$}}
+\newcommand{\ttfrac}[2]{\mbox{\tiny$\frac{#1}{#2}$}}
+
+\begin{document}
+  \begin{mplibcode}
+    u  := 10cm;
+    vardef cantor(expr A, B, n) =
+      if n = 0 : A -- B
+      else: 
+        save C, D; pair C, D; 
+        C = (1/3[xpart A, xpart B], .5[ypart A, ypart B]); 
+        D = (2/3[xpart A, xpart B], ypart C);
+        cantor(A, C, n-1) -- cantor(D, B, n-1)
+      fi
+    enddef;
+    beginfig(1);
+
+      %small grid
+      for i = 1 upto 9: draw (i*u/81, 0) -- (i*u/81, u/4) withcolor .8white; endfor
+      for j = 1 upto 4: draw (0, j*u/16) -- (u/9, j*u/16) withcolor .8white; endfor
+
+      % Grid and axes
+      for i = 1 upto 9: draw (i*u/9, 0) -- (i*u/9, u) withcolor .8white; endfor
+      for j = 1 upto 4: draw (0, j*u/4) -- (u, j*u/4) withcolor .8white; endfor
+      drawarrow origin -- (1.1u, 0); drawarrow origin -- (0, 1.1u);
+      % The function
+      draw cantor(origin, (1, 1), 10) scaled u;
+      % labels
+      label.llft("$O$", origin); label.bot("$1$", (u, 0)); label.lft("$1$", (0, u));
+      label.bot("$x$", (1.1u, 0)); label.lft("$y$", (0, 1.1u));
+      label.bot("$\dfrac{1}{3}$", (1/3u, 0)); 
+      label.bot("$\dfrac{2}{3}$", (2/3u, 0)); 
+
+      label.bot("$\sdfrac{1}{9}$", (1/9u, 0)); 
+      label.bot("$\fdfrac{1}{27}$", (1/25u, 0));
+      label.bot("$\ttfrac{1}{81}$", (1/81u, 0));
+
+      label.lft("$\dfrac{1}{2}$", (0, .5u));
+      label.lft("$\sdfrac{1}{4}$", (0, .25u));
+      label.lft("$\fdfrac{1}{8}$", (0, .125u));
+      label.lft("$\ttfrac{1}{16}$", (0, .0625u));
+    endfig;
+  \end{mplibcode}
+\end{document}
