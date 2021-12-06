@@ -1,6 +1,3 @@
-#%% cantor function(ladder)
-
-import matplotlib
 from matplotlib import pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
@@ -65,7 +62,7 @@ class CantorFunction:
 
     def create_animation(self, frames):
         ani = animation.FuncAnimation(self.fig, self._animate, fargs=(frames,),
-                                       frames=frames, interval=10, blit=True)
+                                        frames=frames, interval=10, blit=True)
         fn = f'animate_cantor_{self.depth}'
         ani.save(fn+'.mp4',writer='ffmpeg',fps=20)
 

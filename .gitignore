@@ -10,3 +10,4 @@
 tex_out/
 *.mp4
 *.npy
+.cantor_function.py
